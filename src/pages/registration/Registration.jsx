@@ -15,10 +15,8 @@ function Registration() {
             alert("Please fill out all fields");
             return;
         } else {
-            localStorage.setItem(
-                "currentUser",
-                JSON.stringify({ name, username, email, mobile })
-            );
+            const currentUser = { name, username, email, mobile };
+            localStorage.setItem("currentUser", JSON.stringify({ name, username, email, mobile }));
         }
         console.log(JSON.parse(localStorage.getItem("currentUser")));
     };
