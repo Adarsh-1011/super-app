@@ -10,65 +10,129 @@ function Registration() {
     const [consent, setConsent] = useState(false);
 
     const handleSubmit = (e) => {
-		if (!name || !username || !email || !consent) {
-            return alert("Please fill out all fields");
+        e.preventDefault();
+        if (!name || !username || !email || !consent) {
+            alert("Please fill out all fields");
+            return;
         } else {
-			console.log({name, username, email, consent});
-		}
-	};
+            localStorage.setItem(
+                "currentUser",
+                JSON.stringify({ name, username, email, mobile })
+            );
+        }
+        console.log(JSON.parse(localStorage.getItem("currentUser")));
+    };
 
-    return <div>
-        <div><img src={bgImage} alt="background" /></div>
-        <div>
-            <div>
-                <h1>Super App</h1>
-                <h2>Create your new account</h2>
+    return (
+        <div className={styles.page}>
+            <div className={styles.left}>
+                <div className={styles.leftHeader}>
+                    <h1 className={styles.h1}>
+                        Discover new things on <br></br> SuperApp
+                    </h1>
+                </div>
+                <img src={bgImage} className={styles.bgImage} alt="Registration" />
             </div>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="tel"
-                    placeholder="Mobile"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                />
-                <div>
-                    <input 
-                    type="checkbox" 
-                    value={consent}
-					onChange={(e) => setConsent(e.target.checked)}
-                    />
-                    <label htmlFor="">Share my registration data with Superapp</label>
+            <div className={styles.right}>
+                <div style={styles.rightHeader}>
+                    <h2>Super App</h2>
+                    <h3>Create your new account</h3>
+                </div>
+                <div className={styles.form}>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="Name"
+                            className={styles.input}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        {/* <label
+							className={styles.label}
+							style={{
+								display: checkWarning && !name ? "block" : "none",
+							}}>
+							Field is required
+						</label> */}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            className={styles.input}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        {/* <label
+                            className={styles.label}
+                            style={{
+                                display: checkWarning && !username ? "block" : "none",
+                            }}>
+                            Field is required
+                        </label> */}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            className={styles.input}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        {/* <label
+							className={styles.label}
+							style={{
+								display: checkWarning && !email ? "block" : "none",
+							}}>
+							Field is required
+						</label> */}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="tel"
+                            placeholder="Mobile"
+                            className={styles.input}
+                            value={mobile}
+                            onChange={(e) => setMobile(e.target.value)}
+                        />
+                        {/* <label
+							className={styles.label}
+							style={{
+								display: checkWarning && !mobile ? "block" : "none",
+							}}>
+							Field is required
+						</label> */}
+                    </div>
+                    <div className={styles.checkbox}>
+                        <input
+                            type="checkbox"
+                            value={consent}
+                            onChange={(e) => setConsent(e.target.checked)}
+                        />
+                        <label htmlFor="mobile">Share my registration data with Superapp</label>
+                        {/* <label
+							className={styles.label}
+							style={{
+								display: checkWarning && !shareData ? "block" : "none",
+							}}
+						>
+							Check if you want to proceed
+						</label> */}
+                    </div>
+
+                    <button className={styles.submit} type="submit" onClick={handleSubmit}>SIGN UP</button>
+                </div>
+                <div className={styles.footer}>
+                    <p>
+                        By clicking on Sign up. you agree to Superapp{" "} <span>Terms and Conditions of Use</span> 
+                    </p>
+                    <p>
+                        To learn more about how Superapp collects, uses, shares and protects your personal data please head Superapp <span>Privacy Policy</span> 
+                    </p>
                 </div>
             </div>
-            <div>
-                <button onClick={handleSubmit}>SIGN UP</button>
-                <p>
-                    By clicking on Sign up. you agree to Superapp Terms and Conditions of Use
-                </p>
-                <p>
-                    To learn more about how Superapp collects, uses, shares and protects your personal data please head Superapp Privacy Policy
-                </p>
-            </div>
         </div>
-    </div>
-}
+    );
+};
 
 export default Registration
