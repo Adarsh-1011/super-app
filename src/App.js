@@ -1,6 +1,9 @@
 import Registration from "./pages/registration/Registration";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GenrePage from "./pages/genre/GenrePage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import HomePage from "./pages/homepage/Homepage";
+// import Dashboard from "./pages/dashboard/Dashboard";
+// import PromotionPage from "./pages/promotion/PromotionPage";
 
 function App() {
   return (

@@ -84,7 +84,7 @@ h3 {
     margin-left: 25%;
 }
 
-.submit {
+button {
     all: unset;
     padding: 10px;
     margin: 0% 25%;
