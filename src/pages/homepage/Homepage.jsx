@@ -1,94 +1,39 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Homepage.module.css";
-import userAvatar from "../../assets/image 14.png";
-import axios from "axios";
-import { PiFileRsThin } from "react-icons/pi";
+import { fetchWeatherData } from "../../apis/weather";
+import { fetchNewsData } from "../../apis/news";
+import UserWidget from "../../components/UserWidget";
+import WeatherWidget from "../../components/WeatherWidget";
+import NewsWidget from "../../components/NewsWidget";
 
 function Homepage() {
-    const [user, setUser] = useState();
-    const [selectedGenres, setSelectedGenres] = useState([]);
-    const genres = [
-        {
-            title: "Action",
-        },
-        {
-            title: "Drama",
-        },
-        {
-            title: "Romance",
-        },
-        {
-            title: "Thriller",
-        },
-        {
-            title: "Western",
-        },
-        {
-            title: "Horror",
-        },
-        {
-            title: "Fantasy",
-        },
-        {
-            title: "Music",
-        },
-        {
-            title: "Fiction",
-        },
-    ];
-    const [weather, setWeather] = useState();
+	const [user, setUser] = useState();
+	const [selectedGenres, setSelectedGenres] = useState();
+	const [weather, setWeather] = useState();
+	const [news, setNews] = useState();
 
-    useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem("currentUser")));
-        setSelectedGenres(JSON.parse(localStorage.getItem("selectedGenres")));
-        fetchWeatherData();
-    }, []);
+	useEffect(() => {
+		setUser(JSON.parse(localStorage.getItem("currentUser")));
+		setSelectedGenres(JSON.parse(localStorage.getItem("selectedGenres")));
+		fetchWeatherData().then((data) => {
+			setWeather(data);
+		});
+		fetchNewsData().then((data) => {
+			setNews(data);
+		});
+	}, []);
 
-    const fetchWeatherData = async () => {
-        const {data, status} = await axios.get("https://api.weatherapi.com/v1/current.json?key=387852eb67f24018b3055546241705&q=Mumbai");
-        if (status == 200) {
-            setWeather(data.current);
-        }
-    };
-
-    useEffect(() => {
-        console.log(weather);
-        if (weather) {
-            const { condition, pressure_mb, temp_c, wind_kph } = weather;
-            console.log(condition, pressure_mb, temp_c, wind_kph);
-        }
-    }, [weather])
-
-    useEffect(() => {
-        selectedGenres.map((genre) => {
-            // if (selectedGenres.includes(index)) {
-            console.log(genres[genre]);
-            // }
-        });
-        console.log(user);
-    }, [selectedGenres, user]);
-
-    return (
-        < div className={"styles.page"} >
-            <div className={styles.left}>
-                {user && (
-                    <div className={styles.userWidget}>
-                        <img src={userAvatar} alt="user avatar" />
-                        <h1>{user.name}</h1>
-                        <h1>{user.email}</h1>
-                        <h1>{user.username}</h1>
-                        {selectedGenres.length > 0 &&<div className={styles.genreGrid}>
-                            {selectedGenres.map((genre) => (
-                                <div className={styles.pill}>{genres[genre].title}</div>
-                            ))}
-                        </div>}
-                    </div>
-                )}
-                <div className={styles.weatherWidget}></div>
-            </div>
-            <div className={styles.right}></div>
-        </div >
-    );
+	return (
+		<div className={styles.page}>
+			<div className={styles.left}>
+				{user && <UserWidget user={user} selectedGenres={selectedGenres} />}
+				{weather && <WeatherWidget weather={weather} />}
+			</div>
+			<div className={styles.right}>
+				{news && <NewsWidget news={news} />}
+			</div>
+		</div>
+	);
 }
 
 export default Homepage;
